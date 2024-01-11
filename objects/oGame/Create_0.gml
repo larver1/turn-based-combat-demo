@@ -1,0 +1,1 @@
+party = global.party;
