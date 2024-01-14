@@ -15,7 +15,7 @@ global.actionLibrary = {
 		effectOnTarget: MODE.ALWAYS,
 		func: function(_user, _targets) {
 			var _damage = ceil(_user.strength + random_range(-_user.strength * 0.25, _user.strength * 0.25));
-			BattleChangeHP(_targets[0], -_damage, 0);
+			BattleChangeHP(_targets[0], -BattleCalcPhysicalDamage(_user, _targets[0], _damage), 0);
 		}
 	},
 	ice: {
@@ -36,7 +36,7 @@ global.actionLibrary = {
 			// Go through every selected target and apply damage
 			for (var i = 0; i < array_length(_targets); i++) {
 				var _damage = irandom_range(15, 20);
-				if (array_length(_targets) > 1) _damage = ceil(_damage * 0.75);
+				if (array_length(_targets) > 1) _damage = BattleCalcMagicDamage(_user, _targets[i], _damage);
 				BattleChangeHP(_targets[i], -_damage);
 			}
 			BattleChangeMP(_user, -mpCost);
@@ -59,7 +59,11 @@ global.actionLibrary = {
 		func: function(_user, _targets) {
 			// Go through every selected target and apply damage
 			for (var i = 0; i < array_length(_targets); i++) {
-				_targets[i].statuses.hasteMult += 0.5;
+				if(struct_exists(_targets[i].statuses, "hasteMult")) {
+					_targets[i].statuses.hasteMult += 0.5;
+				} else {
+					_targets[i].statuses.hasteMult = 1.5;	
+				}
 			}
 			BattleChangeMP(_user, -mpCost);
 		}
@@ -81,7 +85,11 @@ global.actionLibrary = {
 		func: function(_user, _targets) {
 			// Go through every selected target and apply damage
 			for (var i = 0; i < array_length(_targets); i++) {
-				_targets[i].statuses.hasteMult += 0.5;
+				if(struct_exists(_targets[i].statuses, "hasteMult")) {
+					_targets[i].statuses.hasteMult += 0.5;
+				} else {
+					_targets[i].statuses.hasteMult = 1.5;	
+				}
 			}
 			BattleChangeMP(_user, -mpCost);
 		}
@@ -146,7 +154,13 @@ global.actionLibrary = {
 		effectOnTarget: MODE.ALWAYS,
 		func: function(_user, _targets) {
 			// Go through every selected target and apply damage
-			_user.statuses.defenseMult += 0.5;
+			for (var i = 0; i < array_length(_targets); i++) {
+				if(struct_exists(_targets[i].statuses, "defenseMult")) {
+					_targets[i].statuses.defenseMult += 0.5;
+				} else {
+					_targets[i].statuses.defenseMult = 1.5;	
+				}
+			}
 		}
 	},
 }

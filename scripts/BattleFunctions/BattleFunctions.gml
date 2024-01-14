@@ -21,6 +21,35 @@ function NewEncounter(_enemies, _bg) {
 	);
 }
 
+function BattleCalcMagicDamage(_user, _target, _damage) {
+	return max(1, ((_user.magic * _damage) - BattleCalcMagicalDefense(_target)));
+}
+
+function BattleCalcPhysicalDamage(_user, _target, _damage) {
+	return max(1, ((_user.strength * _damage) - BattleCalcPhysicalDefense(_target)));
+}
+
+function BattleCalcPhysicalDefense(_target) {
+	if(struct_exists(_target.statuses, "defenseMult")) {
+		return _target.defense * _target.statuses.defenseMult;		
+	}
+	return _target.defense;
+}
+
+function BattleCalcMagicalDefense(_target) {
+	if(struct_exists(_target.statuses, "defenseMult")) {
+		return _target.magicDefense * _target.statuses.defenseMult;		
+	}
+	return _target.magicDefense;
+}
+
+function BattleCalcHaste(_target) {
+	if(struct_exists(_target.statuses, "hasteMult")) {
+		return _target.haste * _target.statuses.hasteMult;		
+	}
+	return _target.haste;
+}
+
 // _AliveDeadOrEither: 0 = alive only, 1 = dead only, 2 = any
 function BattleChangeHP(_target, _amount, _AliveDeadOrEither = 0) {
 	
@@ -83,17 +112,20 @@ function BattleGetStatusText(_target) {
 	var _statuses = [];
 	
 	// Speed buff/debuff
-	if(_target.statuses.hasteMult > 1) {
-		array_push(_statuses, "HASTE");
-	} else if(_target.statuses.hasteMult < 1) {
-		array_push(_statuses, "SLOW"); 	
+	if(struct_exists(_target.statuses, "hasteMult")) {
+		if(_target.statuses.hasteMult > 1) {
+			array_push(_statuses, "HASTE");
+		} else if(_target.statuses.hasteMult < 1) {
+			array_push(_statuses, "SLOW"); 	
+		}
 	}
 	
-	// Defense buff/debuff
-	if(_target.statuses.defenseMult > 1) {
-		array_push(_statuses, "DEFEND");
-	} else if(_target.statuses.defenseMult < 1) {
-		array_push(_statuses, "BREAK"); 	
+	if(struct_exists(_target.statuses, "defenseMult")) {
+		if(_target.statuses.defenseMult > 1) {
+			array_push(_statuses, "DEFEND");
+		} else if(_target.statuses.defenseMult < 1) {
+			array_push(_statuses, "BREAK"); 	
+		}
 	}
 	
 	return _statuses;

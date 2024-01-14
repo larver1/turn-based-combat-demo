@@ -64,7 +64,7 @@ array_copy(unitTurnOrder, 0, units, 0, array_length(units));
 // Gives a random turn order
 RefreshTurnOrder = function() {
 	array_sort(unitTurnOrder, function(_1, _2) {
-		return (_2.haste * _2.statuses.hasteMult) - (_1.haste * _1.statuses.hasteMult);	
+		return BattleCalcHaste(_2) - BattleCalcHaste(_1);	
 	});
 }
 
@@ -277,6 +277,7 @@ function BattleStateVictoryCheck() {
 		for(var i = 0; i < array_length(partyUnits); i++) {
 			oGame.party[i].hp = partyUnits[i].hp;
 			oGame.party[i].mp = partyUnits[i].mp;
+			oGame.party[i].statuses = { statusIndex: 0 };
 		}
 		
 		instance_destroy();

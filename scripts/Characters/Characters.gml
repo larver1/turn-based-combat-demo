@@ -7,14 +7,13 @@ global.entities =
 		hpMax: 89,
 		mp: 15,
 		mpMax: 15,
+		defense: 10,
+		magicDefense: 15,
 		strength: 6,
 		haste: 9,
 		sprites : { idle: sLuluIdle, attack: sLuluAttack, defend: sLuluDefend, down: sLuluDown},
 		actions : [global.actionLibrary.attack, global.actionLibrary.hastega, global.actionLibrary.cure, global.actionLibrary.defend],
-		statuses: {
-			defenseMult: 1,
-			hasteMult: 1,
-		},
+		statuses: {}
 	},
 	questy: {
 		name: "Questy",
@@ -23,13 +22,12 @@ global.entities =
 		mp: 30,
 		mpMax: 30,
 		strength: 4,
+		defense: 10,
+		magicDefense: 15,
 		haste: 2,
 		sprites : { idle: sQuestyIdle, attack: sQuestyCast, cast: sQuestyCast, down: sQuestyDown},
 		actions : [global.actionLibrary.attack, global.actionLibrary.ice, global.actionLibrary.restore, global.actionLibrary.defend],
-		statuses: {
-			defenseMult: 1,
-			hasteMult: 1,
-		},
+		statuses: {}
 	},
 	slimeG: {
 		name: "Slime",
@@ -39,10 +37,12 @@ global.entities =
 		mpMax: 0,
 		strength: 5,
 		haste: 5,
+		defense: 10,
+		magicDefense: 15,
 		sprites: { idle: sSlime, attack: sSlimeAttack},
 		actions: [global.actionLibrary.attack],
 		xpValue : 15,
-		statuses: global.statuses,
+		statuses: {},
 		AIscript : function()
 		{
 			// Pick first action
@@ -66,10 +66,12 @@ global.entities =
 		mpMax: 20,
 		strength: 4,
 		haste: 8,
+		defense: 10,
+		magicDefense: 15,
 		sprites: { idle: sBat, attack: sBatAttack},
 		actions: [global.actionLibrary.ice],
 		xpValue : 18,
-		statuses: global.statuses,
+		statuses: {},
 		AIscript : function() {
 			// Pick first action
 			var _action = actions[0];
